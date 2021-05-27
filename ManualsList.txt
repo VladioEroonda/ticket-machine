@@ -1,0 +1,7 @@
+//Freemarker
+https://easyjava.ru/spring/spring-web-mvc/freemarker-v-spring-web-mvc/
+https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-freemarker
+https://freemarker.apache.org/docs/search-results.html?q=escaping
+
+//Java Date formats VS Postgres(timestamp etc)
+https://jdbc.postgresql.org/documentation/head/8-date-time.html
