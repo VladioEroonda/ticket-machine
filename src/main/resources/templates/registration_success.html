@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{components/main_page_template}">
+<body>
+<div layout:fragment="content_part">
+
+  <h2 align="center">Congrats!Registration is complete successfuly</h2>
+  <h3 align="center">Now you will be automatically redirected to the login page after 7 seconds</h3>
+  <h4 align="center">Press <a href="/auth/login">here</a> if you wanna open it now</h4>
+
+  <script>
+    function redirect() { window.location = '/auth/login'; }
+    setTimeout("redirect();", 7000);
+  </script>
+
+</div>
+</body>
+</html>
+
+
+
+
+

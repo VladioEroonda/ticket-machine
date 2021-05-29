@@ -1,27 +1,21 @@
 package ru.eroonda.ticketmachine.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.eroonda.ticketmachine.entity.User;
-import ru.eroonda.ticketmachine.repository.TicketRepository;
-import ru.eroonda.ticketmachine.repository.UserRepository;
+
 
 
 @Controller
 public class MainController {
 
-    @RequestMapping("/")
-    public String indexPage(){
-
+    @GetMapping("/")
+    public String homePage(Model model){ // можно ++ реквест парам по гету или посту name например и из него сделать строчку вида
         return "index";
     }
-
-//    @RequestMapping("/register")
-//    public String register(Model model){
-//        model.addAttribute("user", new User());
-//        return "register";
-//    }
 
 }

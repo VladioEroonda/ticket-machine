@@ -23,7 +23,9 @@ public class Ticket {
     @JoinColumn(name = "ticket_engineer_id")
     private User engineer;
     @Column(name = "ticket_status")
-    @Enumerated(EnumType.ORDINAL)//TODO:Need change to STRING later and re-create a BD
+    @Enumerated(EnumType.ORDINAL)//TODO:Need change to STRING later? and re-create a BD then
+    //        System.out.println(Status.values()[1]);//Нумеруются с нуля
+    //Либо можно приделать конструктор в енаме и метод см. ссылку? или просто метод лучше
     private TicketStatus status; //
     @Column(name = "ticket_subject")
     private String subject;

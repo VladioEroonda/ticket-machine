@@ -1,0 +1,19 @@
+<div th:fragment="login_form">
+
+  <form th:action="@{login}" th:method="post">
+    <label for="login">Login: </label>
+    <input id="login" type="text" name="login" required>
+    <br>
+    <label for="password">Password:</label>
+    <input id="password" type="password" minlength="5" maxlength="35" name="password" required>
+    <br>
+    <input type="submit" value="Log in">
+  </form>
+  <br>
+  <p align="center">Still havnt got any account? <a th:href="@{/auth/registration}">Register then</a>
+    <br>
+    <a href="restore">Password restore must be here later:)</a>
+  </p>
+
+
+</div>
