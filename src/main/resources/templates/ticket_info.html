@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{components/main_page_template}">
+<body>
+<div layout:fragment="content_part">
+
+  <br><br>
+  <h1 align="center" th:text="${'Ticket #'+ {{ticket.id}} + ' info:'}"></h1>
+  <br><br>
+  <table align="center" th:object="${ticket}">
+
+    <tr bgcolor="#a9a9a9">
+      <th colspan="2" align="center" th:text="'Info: '"></th>
+      <th></th>
+    </tr>
+
+    <tr>
+      <td th:text="'Ticket id: '"></td>
+      <td th:text="*{id}"></td>
+    </tr>
+
+    <tr>
+      <td th:text="'Status: '"></td>
+      <td th:text="*{status}"></td>
+    </tr>
+
+    <tr>
+      <td th:text="'Created by: '"></td>
+      <td th:text="*{client.name + ' ' + client.surname}"></td>
+    </tr>
+
+    <tr>
+      <td th:text="'Creating date: '"></td>
+      <td th:text="${#temporals.format(ticket.creationTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+    </tr>
+
+    <tr>
+      <td th:text="'Engineer: '"></td>
+      <td th:text="*{engineer.name + ' ' + engineer.surname}"></td>
+    </tr>
+
+    <tr>
+      <td th:text="'Creating date: '"></td>
+      <td th:text="*{#temporals.format(closingTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+<!--      <th th:text="${#temporals.format(ticket.closingTime, 'dd.MM.yyyy HH:mm:ss')}"></th>-->
+    </tr>
+
+    <tr>
+      <td th:text="'Subject: '"></td>
+      <td th:text="*{subject}"></td>
+    </tr>
+
+    <tr>
+      <td colspan="2" th:text="'Ticket text: '" align="center" bgcolor="#a9a9a9"></td>
+    </tr>
+    <tr>
+      <td th:text="*{message.messageText}"></td>
+    </tr>
+
+  </table>
+
+  <br><br><br>
+  <p align="center"><a th:href="@{/ticket_machine}">Go back to main system page</a></p>
+
+</div>
+</body>
+</html>

@@ -40,6 +40,14 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -86,6 +94,22 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<Ticket> getTicketListAsUser() {
+        return ticketListAsUser;
+    }
+
+    public void setTicketListAsUser(List<Ticket> ticketListAsUser) {
+        this.ticketListAsUser = ticketListAsUser;
+    }
+
+    public List<Ticket> getTicketListAsEngineer() {
+        return ticketListAsEngineer;
+    }
+
+    public void setTicketListAsEngineer(List<Ticket> ticketListAsEngineer) {
+        this.ticketListAsEngineer = ticketListAsEngineer;
     }
 
     @Override

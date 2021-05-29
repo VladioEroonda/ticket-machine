@@ -11,6 +11,42 @@
     <br><br><br>
     <h3 align="center">Your tickets: </h3>
 
+    <th:block th:if="${userTickets.size()==0}">
+        <h3 align="center">You have no tickets yet</h3>
+    </th:block>
+
+    <th:block th:if="${userTickets.size()>0}">
+        <table align="center">
+            <tr bgcolor="#a9a9a9">
+                <th>Ticket №</th>
+                <th>Ticket Status</th>
+                <th>Creation Date</th>
+                <th>Closing Date</th>
+                <th>Engineer</th>
+                <th>Ticket Subject</th>
+            </tr>
+            <tr th:each="ticket: ${userTickets}">
+                <td><a th:href="@{/ticket_machine/ticket_info/{id}(id=${ticket.id})}" th:text="${ticket.id}"/></td>
+                <td th:text="${ticket.status}"></td>
+                <td th:text="${#temporals.format(ticket.creationTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                <td th:text="${#temporals.format(ticket.closingTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                <td>
+                    <a th:href="@{/ticket_machine/engineer_info/{id}(id=${ticket.engineer.id})}"
+                       th:text="${ticket.engineer.name + ' ' + ticket.engineer.surname}"/>
+                </td>
+                <td th:text="${ticket.subject}"></td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+    </th:block>
+    <br><br>
+<div align="center" th:insert="~{components/button_fragment :: createNewTicket}"></div>
+
 
 </div>
 </body>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{components/main_page_template}">
+<body>
+<div layout:fragment="content_part">
+
+ <h2 align="center">Engineer info:</h2>
+ <br><br><br>
+<!-- TODO:добавить проверку на права - если инженер, то выводить инфу, если нет - то писать что нет доступа-->
+ <table align="center" th:object="${engineerInfo}">
+
+  <tr bgcolor="#a9a9a9">
+  <th colspan="2">Info:</th>
+  <th></th>
+  </tr>
+
+  <tr>
+   <td th:text="'Name: '">If you see that - something goes wrong:(</td>
+   <td th:text="*{name}"></td>
+  </tr>
+
+  <tr>
+   <td th:text="'Surname: '">If you see that - something goes wrong:(</td>
+   <td th:text="*{surname}"></td>
+  </tr>
+
+  <tr>
+   <td th:text="'Phone nubmer: '">If you see that - something goes wrong:(</td>
+   <td th:text="*{phoneNumber}"></td>
+  </tr>
+
+ </table>
+
+ <br><br><br>
+ <p align="center"><a th:href="@{/ticket_machine}">Go back to main system page</a></p>
+
+
+</div>
+</body>
+</html>

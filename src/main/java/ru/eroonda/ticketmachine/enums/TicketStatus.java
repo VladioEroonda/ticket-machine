@@ -8,8 +8,5 @@ public enum TicketStatus {
     RENEWED,
     INFORMATION_REQUESTED;
 
-    public static String getStringFromIndex(int i){
-        return TicketStatus.values()[i].toString();//TODO: test it, i-1 probably
-    }
 }
 

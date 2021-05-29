@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{components/main_page_template}">
+<body>
+<div layout:fragment="content_part" align="center">
+    <br><br>
+    <h2>New ticket creating:</h2>
+    <br><br>
+
+    <form th:action="@{/new_ticket}" th:method="post" th:object="${newTicket}">
+        <label for="ticketSubject">Subject: </label>
+        <input id="ticketSubject" type="text" th:field="*{subject}" required>
+        <br>
+        <label for="ticketMessage">Message: </label>
+        <textarea id="ticketMessage" rows="10" cols="45" maxlength="4000" minlength="10" th:field="*{message.messageText}" required></textarea>
+        <br>
+        <input type="file" id="myFile" name="filename">
+        <br><br><br>
+        <input type="submit" value="Submit ticket">
+        <input type="reset" value="Reset all">
+    </form>
+    <br><br><br>
+    <p align="center"><a th:href="@{/ticket_machine}">Go back to main system page</a></p>
+</div>
+</body>
+</html>
