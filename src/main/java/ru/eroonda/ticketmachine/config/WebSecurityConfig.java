@@ -1,12 +1,15 @@
 package ru.eroonda.ticketmachine.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.eroonda.ticketmachine.security.AuthProviderImpl;
 
 @Configuration
@@ -20,23 +23,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+//                .authorizeRequests()
+//                    .antMatchers("/ticket_machine/**").authenticated() //.hasRole("USER")
+//                    .antMatchers("/auth/*").anonymous()
+//                    .antMatchers("/").permitAll()
+//                    .anyRequest().authenticated() эти 5 работают + csrf nije
+
                 .authorizeRequests()
-                    .antMatchers("/registration", "/login", "/restore", "/").anonymous()
-//                    .antMatchers("/ticket_machine").authenticated()  не работает
-//                .antMatchers("/ticket_machine/**").authenticated() работает с натягом
-//                .anyRequest().authenticated() не работает
-
-
-//                .antMatchers("/ticket_machine/**", "/*").authenticated() //.hasRole("USER")
-//                .antMatchers("/*").anonymous()
-//                .antMatchers("/auth/*").permitAll()
-//                .anyRequest().authenticated()
-
-                .antMatchers("/ticket_machine/**").authenticated() //.hasRole("USER")
+                .antMatchers("/ticket_machine/**").authenticated()
                 .antMatchers("/auth/*").anonymous()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
-
                 .and()
                     .csrf().disable()
                 .formLogin()
@@ -44,6 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginProcessingUrl("/auth/login/process")
                     .defaultSuccessUrl("/ticket_machine")
                     .usernameParameter("email")
+                .and()
+                    .exceptionHandling()
+                    .accessDeniedPage("/ticket_machine")
                 .and()
                     .logout();
 //        .permitAll();
@@ -58,31 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authProvider);
     }
 
-    //    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                    .antMatchers("/", "/auth/registration").permitAll()
-//                    .anyRequest().authenticated()
-//                .and()
-//                    .formLogin()
-//                    .loginPage("/auth/login")
-//                    .permitAll()
-//                .and()
-//                    .logout()
-//                    .permitAll();
-//    }
-//
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("u")
-//                        .password("1")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }

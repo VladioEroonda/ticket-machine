@@ -1,12 +1,17 @@
 package ru.eroonda.ticketmachine.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
 @Table(name = "user_info")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
@@ -19,6 +24,8 @@ public class User {
     private String email;
     @Column(name="user_password")
     private String password;
+    @Transient
+    private String passwordConfirm;
     @Column(name="user_enabled")
     private boolean isEnabled;
     @Column(name = "user_phone")
@@ -27,6 +34,9 @@ public class User {
     private List<Ticket> ticketListAsUser;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "engineer",fetch = FetchType.LAZY)
     private List<Ticket> ticketListAsEngineer;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_info_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     public User() {
     }
@@ -80,8 +90,12 @@ public class User {
         this.password = password;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public void setEnabled(boolean enabled) {
@@ -112,6 +126,44 @@ public class User {
         this.ticketListAsEngineer = ticketListAsEngineer;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String getUsername() {
+        return name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -122,6 +174,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", isEnabled=" + isEnabled +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", role ='" + roles + '\'' +
                 '}';
     }
 }

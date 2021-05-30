@@ -1,13 +1,18 @@
 package ru.eroonda.ticketmachine.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.eroonda.ticketmachine.entity.User;
+import ru.eroonda.ticketmachine.service.UserService;
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/registration")
     public String openNewUserRegistrationPage(Model model){
@@ -17,8 +22,8 @@ public class AuthController {
 
     @PostMapping("/registration")
     public String registrationNewUserHandler(@ModelAttribute("newUser") User user){
-        System.out.println(user);
-        //TODO:user.isEnabled = true
+        userService.addUser(user);
+        //TODO:проверка на существующего пользователя
         return "redirect:registration_success";
     }
 
@@ -36,11 +41,6 @@ public class AuthController {
     @GetMapping("/registration_success")
     public String registrationSuccessPage(){
         return "registration_success";
-    }
-
-    @GetMapping("test_page")
-    public String testP(){
-        return "test_page";
     }
 
 }
