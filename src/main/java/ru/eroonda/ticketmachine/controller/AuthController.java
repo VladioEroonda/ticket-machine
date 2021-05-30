@@ -9,7 +9,7 @@ import ru.eroonda.ticketmachine.entity.User;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @GetMapping("registration")
+    @GetMapping("/registration")
     public String openNewUserRegistrationPage(Model model){
         model.addAttribute("newUser", new User());
         return "registration";
@@ -18,12 +18,12 @@ public class AuthController {
     @PostMapping("/registration")
     public String registrationNewUserHandler(@ModelAttribute("newUser") User user){
         System.out.println(user);
-        return "redirect:login";
+        //TODO:user.isEnabled = true
+        return "redirect:registration_success";
     }
 
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public String openLoginPage(Model model){
-
         return "login";
     }
 
@@ -36,6 +36,11 @@ public class AuthController {
     @GetMapping("/registration_success")
     public String registrationSuccessPage(){
         return "registration_success";
+    }
+
+    @GetMapping("test_page")
+    public String testP(){
+        return "test_page";
     }
 
 }

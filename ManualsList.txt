@@ -7,7 +7,7 @@ https://freemarker.apache.org/docs/search-results.html?q=escaping
 https://betacode.net/12345/thymeleaf
 https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#including-template-fragments
 https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#text-literals
-
+https://habr.com/ru/post/350862/
 
 //Java Date formats VS Postgres(timestamp etc)
 https://jdbc.postgresql.org/documentation/head/8-date-time.html
