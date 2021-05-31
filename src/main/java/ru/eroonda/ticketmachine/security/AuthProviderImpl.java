@@ -14,7 +14,9 @@ import ru.eroonda.ticketmachine.entity.User;
 import ru.eroonda.ticketmachine.service.UserService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
@@ -38,9 +40,9 @@ public class AuthProviderImpl implements AuthenticationProvider {
         if(!user.isEnabled()){
             throw new AccountExpiredException("Account was disabled by Admin");//TODO:свой ексепшн добавить
         }
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-
-        return new UsernamePasswordAuthenticationToken(user,null, authorityList);
+//        List<GrantedAuthority> authorityList = authentication.getAuthorities();//TODO:ВОТ ТУТ С ПРАВАМИ ПОХОДУ ТРАБЛ
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        return new UsernamePasswordAuthenticationToken(user,null, authorities);
     }
 
     @Override

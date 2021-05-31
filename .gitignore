@@ -34,3 +34,4 @@ build/
 /ProjectIssues.txt
 /src/main/java/ru/eroonda/ticketmachine/test/
 /src/main/resources/templates/test/
+/front-tests/

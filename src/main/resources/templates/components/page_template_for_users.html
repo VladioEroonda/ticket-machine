@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.w3.org/1999/xhtml"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
@@ -20,10 +20,15 @@
 <!--        <h2 th:text="${#authentication.getPrincipal}"></h2>-->
 <!--        <h2 th:text="${#authentication.getDetails}"></h2>-->
 <!--        <h2 th:text="${#authentication.getCredentials}"></h2>-->
-<!--        <div th:text="${#authorization.expression('hasRole(''ADMIN'')')} "></div>-->
-<!--        <div th:text="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} "></div>-->
+
+
+
+
+
+<!--        РАБОТАЮТ: все ниже до из админ 5. два ниже которые текст выдают тру-->
+<!--        <div th:text="${#authorization.expression('hasRole(''ADMIN'')')} ">adm1</div>-->
+<!--        <div th:text="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} ">adm2</div>-->
 <!--        <div  sec:authorize="${hasRole('ADMIN')}" > IS ADMIN1 </div>-->
-<!--        <div  sec:authorize="hasAuthority('ADMIN')" > IS ADMIN2 </div>-->
 <!--        <div sec:authorize="hasRole('ROLE_ADMIN')">-->
 <!--            This content is only shown to administrators.3-->
 <!--        </div>-->
@@ -31,12 +36,9 @@
 <!--        <div sec:authorize="hasRole('ROLE_ADMIN')">IS ADMIN5</div>-->
 
 
-        Logged user: <b><span sec:authentication="name">Bob</span></b><br>
-        Roles: <span sec:authentication="principal.authorities"></span>
 
-        <div th:if="${ #authorization.expression('isAuthenticated()') and #strings.contains(#authentication.principal.authorities,'USER')}">
-            <a th:href="@{/somelink}">ENGINEER LINK</a>
-        </div>
+        Logged user: <b><span sec:authentication="name">Username</span></b><br>
+        Roles: <span sec:authentication="principal.authorities"></span>
 
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
