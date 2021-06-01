@@ -3,39 +3,42 @@
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{components/page_template_for_users}">
+      layout:decorate="~{page_template/pages_main_template.html}">
 <body>
 <div layout:fragment="content_part">
 
- <h2 align="center">Engineer info:</h2>
- <br><br><br>
-<!-- TODO:добавить проверку на права - если инженер, то выводить инфу, если нет - то писать что нет доступа-->
- <table align="center" th:object="${engineerInfo}">
+    <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Engineer info:</h3></div>
+    <br>
+    <table table class="table table-dark table-striped table-hover table-bordered" th:object="${engineerInfo}">
 
-  <tr bgcolor="#a9a9a9">
-  <th colspan="2">Info:</th>
-  <th></th>
-  </tr>
+        <tr tr class="align-middle">
+            <th colspan="2">Info:</th>
+        </tr>
 
-  <tr>
-   <td th:text="'Name: '">If you see that - something goes wrong:(</td>
-   <td th:text="*{name}"></td>
-  </tr>
+        <tr>
+            <td th:text="'Name: '">Name: </td>
+            <td th:text="*{name}"></td>
+        </tr>
 
-  <tr>
-   <td th:text="'Surname: '">If you see that - something goes wrong:(</td>
-   <td th:text="*{surname}"></td>
-  </tr>
+        <tr>
+            <td th:text="'Surname: '">Surname:  </td>
+            <td th:text="*{surname}"></td>
+        </tr>
 
-  <tr>
-   <td th:text="'Phone nubmer: '">If you see that - something goes wrong:(</td>
-   <td th:text="*{phoneNumber}"></td>
-  </tr>
+        <tr>
+            <td th:text="'Email: '">Email: </td>
+            <td th:text="*{email}"></td>
+        </tr>
 
- </table>
+        <tr>
+            <td th:text="'Phone nubmer: '">Phone number: </td>
+            <td th:text="*{phoneNumber}"></td>
+        </tr>
 
- <br><br><br>
- <p align="center"><a th:href="@{/ticket_machine}">Go back to main system page</a></p>
+    </table>
+
+    <br><br><br>
+    <p align="center"><a href="/ticket_machine" style="color: grey">Go back to main system page</a></p>
 
 
 </div>

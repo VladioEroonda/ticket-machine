@@ -40,7 +40,6 @@ public class AuthProviderImpl implements AuthenticationProvider {
         if(!user.isEnabled()){
             throw new AccountExpiredException("Account was disabled by Admin");//TODO:свой ексепшн добавить
         }
-//        List<GrantedAuthority> authorityList = authentication.getAuthorities();//TODO:ВОТ ТУТ С ПРАВАМИ ПОХОДУ ТРАБЛ
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         return new UsernamePasswordAuthenticationToken(user,null, authorities);
     }

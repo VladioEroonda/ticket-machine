@@ -3,24 +3,33 @@
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{components/page_template_for_unauth_users}">
+      layout:decorate="~{page_template/pages_main_template.html}">
 <body>
 <div layout:fragment="content_part">
 
-  <h2 align="center">Congrats!Registration is complete successfuly</h2>
-  <h3 align="center">Now you will be automatically redirected to the login page after 7 seconds</h3>
-  <h4 align="center">Press <a href="/auth/login">here</a> if you wanna open it now</h4>
+                <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Registration complete!</h3></div>
+                        <br><br>
+    <div style="text-align: center;"><h3>Now you will be automatically redirected to the login page after</h3>
 
-  <script>
-    function redirect() { window.location = '/auth/login'; }
-    setTimeout("redirect();", 7000);
-  </script>
+
+<!--    <script>-->
+<!--        function redirect() { window.location = '/auth/login'; }-->
+<!--        setTimeout("redirect();", 7000);-->
+<!--    </script>-->
+<h1>
+    <div id="counter">7</div>
+    <script>
+        setInterval(function() {
+            var div = document.querySelector("#counter");
+            var count = div.textContent * 1 - 1;
+            div.textContent = count;
+            if (count <= 0) {
+                window.location.replace("/auth/login");
+            }
+        }, 1000);
+    </script> </h1><h3>seconds</h3>
+        <h4>Press <a href="/auth/login" style="color: grey">here</a> if you wanna open it immediately.</h4></div>
 
 </div>
 </body>
 </html>
-
-
-
-
-

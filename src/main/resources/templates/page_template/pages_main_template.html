@@ -1,5 +1,9 @@
 <!doctype html>
-<html lang="en">
+<!--<html lang="en">-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +17,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1b1e21">
         <div class="container">
-            <a class="navbar-brand" href="/"><img src="header-logo.png"></a>
+            <a class="navbar-brand" href="/"><img th:src="@{/images/header-logo.png}"></a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,19 +28,20 @@
 
                 <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about">About System</a>
                     </li>
                     <!--                    Это видно онли неавторизированным-->
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Log in</a>
+                        <a class="nav-link active" aria-current="page" href="/auth/registration">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Register</a>
+                        <a class="nav-link active" aria-current="page" href="/auth/login">Log in</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">About</a>
-                    </li>
+
                     <!--                    Это авторизованным с ролью USER -->
                     <!--                    <li class="nav-item">-->
                     <!--                        <a class="nav-link active" aria-current="page" href="#">Create a Ticket</a>-->
@@ -66,7 +71,7 @@
                             userName!
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">My Tickets</a></li>
+                            <li><a class="dropdown-item" href="/ticket_machine">My Tickets</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -95,40 +100,46 @@
     </nav>
 </header>
 
+
+
+
 <main>
     <div class="container">
-
-<!--        <div class="row">-->
-<!--            <div class="col-sm">-->
-<!--            </div>-->
-<!--            <div class="col-sm">-->
-<!--            </div>-->
-<!--            <div class="col-sm">-->
-<!--                &lt;!&ndash;                <h2>Page Name</h2>&ndash;&gt;-->
-<!--                <br>-->
-<!--                <br>-->
-<!--                <h3>Page Name</h3>-->
-<!--            </div>-->
-<!--            <div class="col-sm">-->
-<!--            </div>-->
-<!--            <div class="col-sm">-->
-<!--            </div>-->
-<!--        </div>-->
-
         <div class="row">
             <div class="col-sm">
             </div>
             <div class="col-sm">
-                <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Main System page</h3></div>
-                <br><br><br>
+                <div layout:fragment="content_part">
 
 
+<!--ТУТ БУДУТ ВСТАВЛЯТЬСЯ КУСКИ-->
+<!--                    <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Main System page</h3></div>-->
+<!--                    <br><br><br>-->
+
+
+                </div>
             </div>
             <div class="col-sm">
             </div>
         </div>
     </div>
 </main>
+
+<!--<main>-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-sm">-->
+<!--            </div>-->
+<!--            <div class="col-sm">-->
+<!--                <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Main System page</h3></div>-->
+<!--                <br><br><br>-->
+<!--                                    TУТ ВСЕ ИЗМЕНЕНИЯ, ИМЕННО В ЭТОЙ ЧАСТИ-->
+<!--            </div>-->
+<!--            <div class="col-sm">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</main>-->
 
 <footer class="mb-auto text-white-50">
     <nav class="navbar fixed-bottom navbar-dark" style="background-color: #1b1e21">
@@ -137,7 +148,7 @@
                 <div class="col-sm">
                 </div>
                 <div class="col-sm">
-                    <p>(с) Ticket Machine created by <a href="mailto:vladioaf8@gmail.com" class="text-white">Vlad</a>
+                    <p>&copy; 2021 Ticket Machine created by <a href="mailto:vladioaf8@gmail.com" class="text-white">Vlad</a>
                     </p>
                 </div>
                 <div class="col-sm">

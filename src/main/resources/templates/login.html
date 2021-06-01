@@ -3,11 +3,47 @@
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{components/page_template_for_unauth_users}">
+      layout:decorate="~{page_template/pages_main_template.html}">
 <body>
-<div  layout:fragment="content_part">
+<div layout:fragment="content_part">
 
-    <div align="center" th:insert="~{components/login_fragment :: login_form}"></div>
+    <br>
+    <form th:action="@{login/process}" method="post">
+        <div style="text-align: center;"><img class="mb-4" th:src="@{/images/login-logo.png}" width="200" height="150">
+        </div>
+        <br>
+        <!--                    Invalid username and password.-->
+        <div th:if="${param.error}">
+            <div class="alert alert-danger" role="alert">
+                Invalid username and password.
+            </div>
+            <!--                        You have been logged out.-->
+        </div>
+        <div th:if="${param.logout}">
+            <div class="alert alert-warning" role="alert">
+                You have been logged out.
+            </div>
+        </div>
+
+        <h5 class="h5 mb-3 font-weight-normal">Please log in:</h5>
+        <label for="inputEmail" class="visually-hidden">Email address:</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+        <label for="inputPassword" class="visually-hidden">Password:</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox mb-3">
+            <!--            TODO:impl remember me-->
+            <label>
+                <input type="checkbox" value="remember-me" disabled> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-secondary btn-block" type="submit">Sign in</button>
+    </form>
+    <br>
+    <p align="center">Still havn't got any account? <a th:href="@{/auth/registration}" style="color: grey">Register
+        then</a>
+        <br>
+        <a href="restore" style="color: grey">Password restore must be here later:)</a>
+    </p>
 
 </div>
 </body>

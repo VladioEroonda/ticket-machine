@@ -3,27 +3,30 @@
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{components/page_template_for_users}">
+      layout:decorate="~{page_template/pages_main_template.html}">
 <body>
-<div layout:fragment="content_part" align="center">
-    <br><br>
-    <h2>New ticket creating:</h2>
-    <br><br>
+<div layout:fragment="content_part">
 
+    <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Create new ticket</h3>
+    </div>
+    <br>
     <form th:action="@{/new_ticket}" th:method="post" th:object="${newTicket}">
-        <label for="ticketSubject">Subject: </label>
-        <input id="ticketSubject" type="text" th:field="*{subject}" required>
-        <br>
-        <label for="ticketMessage">Message: </label>
-        <textarea id="ticketMessage" rows="10" cols="45" maxlength="4000" minlength="10" th:field="*{message.messageText}" required></textarea>
-        <br>
-        <input type="file" id="myFile" name="filename">
-        <br><br><br>
-        <input type="submit" value="Submit ticket">
-        <input type="reset" value="Reset all">
+        <div class="col-12">
+            <label for="subject" class="form-label">Ticket subject: <span class="text-muted">(5-100 symbols)</span></label>
+            <input type="tel" th:field="*{subject}" minlength="5" maxlength="100" class="form-control"
+                   id="subject" required>
+        </div>
+        <div class="col-12">
+            <label for="message" class="form-label">Ticket text: <span class="text-muted">(5-4000 symbols)</span></label>
+            <textarea type="text" rows="5" cols="45" minlength="10" maxlength="4000"
+                      th:field="*{message.messageText}" class="form-control" id="message"
+                      required></textarea>
+            <br>
+            <input class="btn btn-primary btn-secondary btn-block" type="file" id="myFile" name="filename" disabled>
+            <button class="btn btn-primary btn-secondary btn-block" type="submit">Submit</button>
+        </div>
     </form>
-    <br><br><br>
-    <p align="center"><a th:href="@{/ticket_machine}">Go back to main system page</a></p>
+
 </div>
 </body>
 </html>

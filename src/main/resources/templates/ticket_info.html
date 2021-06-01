@@ -3,67 +3,68 @@
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{components/page_template_for_users}">
+      layout:decorate="~{page_template/pages_main_template.html}">
 <body>
 <div layout:fragment="content_part">
 
-  <br><br>
-  <h1 align="center" th:text="${'Ticket #'+ {{ticket.id}} + ' info:'}"></h1>
-  <br><br>
-  <table align="center" th:object="${ticket}">
 
-    <tr bgcolor="#a9a9a9">
-      <th colspan="2" align="center" th:text="'Info: '"></th>
-      <th></th>
-    </tr>
+    <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;"
+                                         th:text="${'Ticket #'+ {{ticket.id}} + ' info:'}">Ticket info</h3>
+    </div>
+    <br>
+    <table table class="table table-dark table-striped table-hover table-bordered" th:object="${ticket}">
 
-    <tr>
-      <td th:text="'Ticket id: '"></td>
-      <td th:text="*{id}"></td>
-    </tr>
+        <tr class="align-middle">
+            <th colspan="2" align="center" th:text="'Info: '">Info: </th>
+        </tr>
 
-    <tr>
-      <td th:text="'Status: '"></td>
-      <td th:text="*{status}"></td>
-    </tr>
+        <tr class="align-middle">
+            <td th:text="'Ticket ID # '">Ticket id # </td>
+            <td th:text="*{id}"></td>
+        </tr>
 
-    <tr>
-      <td th:text="'Created by: '"></td>
-      <td th:text="*{client.name + ' ' + client.surname}"></td>
-    </tr>
+        <tr class="align-middle">
+            <td th:text="'Status: '">Status: </td>
+            <td th:text="*{status}"></td>
+        </tr>
 
-    <tr>
-      <td th:text="'Creating date: '"></td>
-      <td th:text="${#temporals.format(ticket.creationTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
-    </tr>
+        <tr class="align-middle">
+            <td th:text="'Created by: '">Created by: </td>
+            <td th:text="*{client.name + ' ' + client.surname}"></td>
+        </tr>
 
-    <tr>
-      <td th:text="'Engineer: '"></td>
-      <td th:text="*{engineer.name + ' ' + engineer.surname}"></td>
-    </tr>
+        <tr class="align-middle">
+            <td th:text="'Creating date: '">Creating date: </td>
+            <td th:text="${#temporals.format(ticket.creationTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+        </tr>
 
-    <tr>
-      <td th:text="'Creating date: '"></td>
-      <td th:text="*{#temporals.format(closingTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
-<!--      <th th:text="${#temporals.format(ticket.closingTime, 'dd.MM.yyyy HH:mm:ss')}"></th>-->
-    </tr>
+        <tr class="align-middle">
+            <td th:text="'Engineer: '">Engineer: </td>
+            <td th:text="*{engineer.name + ' ' + engineer.surname}"></td>
+        </tr>
 
-    <tr>
-      <td th:text="'Subject: '"></td>
-      <td th:text="*{subject}"></td>
-    </tr>
+        <tr class="align-middle">
+            <td th:text="'Closing date: '">Closing date: </td>
+            <td th:text="*{#temporals.format(closingTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+        </tr>
 
-    <tr>
-      <td colspan="2" th:text="'Ticket text: '" align="center" bgcolor="#a9a9a9"></td>
-    </tr>
-    <tr>
-      <td th:text="*{message.messageText}"></td>
-    </tr>
+        <tr class="align-middle">
+            <td th:text="'Subject: '">Subject: </td>
+            <td th:text="*{subject}"></td>
+        </tr>
 
-  </table>
+        <tr class="align-middle">
+            <td colspan="2" th:text="'Ticket text: '" align="center" bgcolor="#a9a9a9">Ticket text: </td>
+        </tr>
+        <tr class="align-middle">
+            <td colspan="2" th:text="*{message.messageText}"></td>
+        </tr>
 
-  <br><br><br>
-  <p align="center"><a th:href="@{/ticket_machine}">Go back to main system page</a></p>
+    </table>
+
+    <br>
+    <p align="center"><a href="/ticket_machine" style="color: grey">Go back to main system page</a></p>
+
 
 </div>
 </body>

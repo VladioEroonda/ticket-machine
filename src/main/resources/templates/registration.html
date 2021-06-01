@@ -3,11 +3,53 @@
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{components/page_template_for_unauth_users}">
+      layout:decorate="~{page_template/pages_main_template.html}">
 <body>
 <div layout:fragment="content_part">
 
-    <div th:insert="~{components/registration_fragment :: registration_form}"></div>
+    <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Registration</h3></div>
+    <br><br>
+
+    <form th:action="@{/auth/registration}" th:method="post" th:object="${newUser}">
+        <div class="row g-3">
+            <div class="col-sm-6">
+                <label for="firstName" class="form-label">Name:</label>
+                <input type="text" th:field="*{name}" class="form-control" id="firstName" required>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Surname:</label>
+                <input type="text" th:field="*{surname}" class="form-control" id="lastName" required>
+                <!--                            <div class="invalid-feedback">-->
+                <!--                                Valid last name is required.-->
+                <!--                            </div>-->
+            </div>
+
+            <div class="col-12">
+                <label for="phone" class="form-label">Phone number: </label>
+                <input type="tel" th:field="*{phoneNumber}" class="form-control" id="phone" placeholder="+7 (***) ***-**-**">
+            </div>
+
+            <div class="col-12">
+                <label for="email" class="form-label">Email: <span class="text-muted">(used to login to your account)</span> </label>
+                <input type="email" class="form-control" th:field="*{email}" id="email" placeholder="you@example.com">
+            </div>
+
+            <div class="col-12">
+                <label for="password" class="form-label">Password: <span class="text-muted"> (from 8 to 20 symbols)</span></label>
+                <input type="password" class="form-control" id="password"  minlength="8" maxlength="20" th:field="*{password}" required>
+            </div>
+
+            <div class="col-12">
+                <label for="password2" class="form-label">Repeat your password: <span class="text-muted">(should be identical)</span></label>
+                <input type="password" class="form-control" id="password2" minlength="8" maxlength="20" th:field="*{passwordConfirm}" >
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-primary btn-secondary btn-block" type="submit">Register</button>
+        <br><br>
+        <!--                    <button class="btn btn-primary btn-secondary btn-block" type="submit">Clear All</button>-->
+    </form>
 
 </div>
 </body>

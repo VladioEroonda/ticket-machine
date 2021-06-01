@@ -3,17 +3,16 @@
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{components/page_template_for_unauth_users}">
+      layout:decorate="~{page_template/pages_main_template.html}">
 <body>
 <div layout:fragment="content_part">
 
-    <a href="ticket_machine">Main system page</a><br><br>
-
-
-<p th:text="'Hey mate'">Hello</p>
-    <a href="auth/login">Log in</a>
+    <div style="text-align: center;">
+        <h3 style="alignment: center; margin-top: 15px;">Welcome to Home page</h3>
+        <a href="ticket_machine" style="color: grey">Main system page</a><br><br>
+    </div>
     <br>
-    <a href="auth/registration">Register</a>
+
 
 </div>
 </body>

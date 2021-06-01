@@ -23,17 +23,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .authorizeRequests()
-//                    .antMatchers("/ticket_machine/**").authenticated() //.hasRole("USER")
-//                    .antMatchers("/auth/*").anonymous()
-//                    .antMatchers("/").permitAll()
-//                    .anyRequest().authenticated() эти 5 работают + csrf nije
-
                 .authorizeRequests()
                 .antMatchers("/ticket_machine/**").authenticated()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/auth/*").anonymous()
-                .antMatchers("/").permitAll()
+                .antMatchers("/","/about", "/images/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                     .csrf().disable()

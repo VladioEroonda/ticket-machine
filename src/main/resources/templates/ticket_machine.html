@@ -3,28 +3,39 @@
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{components/page_template_for_users}">
+      layout:decorate="~{page_template/pages_main_template.html}">
 <body>
 <div layout:fragment="content_part">
 
-    <h2 align="center">Welcome to main system page</h2>
-    <br><br><br>
-    <h3 align="center">Your tickets: </h3>
+    <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Your tickets:</h3>
+    </div>
+    <br><br>
+    <!-- border-primary-->
+    <table class="table table-dark table-striped table-hover table-bordered">
+        <thead>
+        <tr class="align-middle">
+            <th>Ticket №</th>
+            <th>Ticket Status</th>
+            <th>Creation Date</th>
+            <th>Closing Date</th>
+            <th>Engineer</th>
+            <th>Ticket Subject</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:if="${userTickets.size()==0}">
+            <tr>
+                <td colspan="6">
+                    <div style="text-align: center;">
 
-    <th:block th:if="${userTickets.size()==0}">
-        <h3 align="center">You have no tickets yet</h3>
-    </th:block>
+                        <h5 th:text="You have no tickets yet">You have no tickets yet</h5>
 
-    <th:block th:if="${userTickets.size()>0}">
-        <table align="center">
-            <tr bgcolor="#a9a9a9">
-                <th>Ticket №</th>
-                <th>Ticket Status</th>
-                <th>Creation Date</th>
-                <th>Closing Date</th>
-                <th>Engineer</th>
-                <th>Ticket Subject</th>
+                    </div>
+                </td>
             </tr>
+        </th:block>
+
+        <th:block th:if="${userTickets.size()>0}">
             <tr th:each="ticket: ${userTickets}">
                 <td><a th:href="@{/ticket_machine/ticket_info/{id}(id=${ticket.id})}" th:text="${ticket.id}"/></td>
                 <td th:text="${ticket.status}"></td>
@@ -35,17 +46,15 @@
                        th:text="${ticket.engineer.name + ' ' + ticket.engineer.surname}"/>
                 </td>
                 <td th:text="${ticket.subject}"></td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
             </tr>
-        </table>
-    </th:block>
-    <br><br>
-<div align="center" th:insert="~{components/button_fragment :: createNewTicket}"></div>
+        </th:block>
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+    <form th:action="@{/ticket_machine/new}" th:method="get">
+        <input class="btn btn-lg btn-secondary btn-block" type="submit" value="Create a new Ticket">
+    </form>
 
 
 </div>
