@@ -10,45 +10,75 @@
     <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Registration</h3></div>
     <br><br>
 
+
     <form th:action="@{/auth/registration}" th:method="post" th:object="${newUser}">
         <div class="row g-3">
-            <div class="col-sm-6">
+            <!--            col-sm-6-->
+            <div class="col-12">
                 <label for="firstName" class="form-label">Name:</label>
                 <input type="text" th:field="*{name}" class="form-control" id="firstName" required>
+
+                <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                </div>
+
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-12">
                 <label for="lastName" class="form-label">Surname:</label>
                 <input type="text" th:field="*{surname}" class="form-control" id="lastName" required>
-                <!--                            <div class="invalid-feedback">-->
-                <!--                                Valid last name is required.-->
-                <!--                            </div>-->
+
+                <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('surname')}"
+                     th:errors="*{surname}"></div>
             </div>
 
             <div class="col-12">
-                <label for="phone" class="form-label">Phone number: </label>
-                <input type="tel" th:field="*{phoneNumber}" class="form-control" id="phone" placeholder="+7 (***) ***-**-**">
+                <label for="phone" class="form-label">Phone number: <span
+                        class="text-muted">(must match with template: 8(***)*******)</span> </label>
+                <input type="tel" th:field="*{phoneNumber}"  class="form-control" id="phone"
+                       placeholder="8(***)*******">
+
+                <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('phoneNumber')}"
+                     th:errors="*{phoneNumber}"></div>
+
             </div>
 
             <div class="col-12">
-                <label for="email" class="form-label">Email: <span class="text-muted">(used to login to your account)</span> </label>
+                <label for="email" class="form-label">Email: <span
+                        class="text-muted">(used to login to your account)</span> </label>
                 <input type="email" class="form-control" th:field="*{email}" id="email" placeholder="you@example.com">
+
+                <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('email')}"
+                     th:errors="*{email}"></div>
+
             </div>
 
             <div class="col-12">
-                <label for="password" class="form-label">Password: <span class="text-muted"> (from 8 to 20 symbols)</span></label>
-                <input type="password" class="form-control" id="password"  minlength="8" maxlength="20" th:field="*{password}" required>
+                <label for="password" class="form-label">Password: <span
+                        class="text-muted"> (from 10 to 25 symbols)</span></label>
+                <input type="password" class="form-control" id="password" minlength="10" maxlength="25"
+                       th:field="*{password}" required>
+
+                <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}"></div>
+                </div>
+
+                <div class="col-12">
+                    <label for="password2" class="form-label">Repeat your password: <span class="text-muted">(should be identical)</span></label>
+                    <input type="password" class="form-control" id="password2" minlength="10" maxlength="25"
+                           th:field="*{passwordConfirm}">
+
+                    <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('passwordConfirm')}"
+                         th:errors="*{passwordConfirm}">
+
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-primary btn-secondary btn-block" type="submit">Register</button>
+                <br><br>
+            <button class="btn btn-primary btn-danger btn-block" type="reset">Clear All</button>
+            <br><br>
             </div>
 
-            <div class="col-12">
-                <label for="password2" class="form-label">Repeat your password: <span class="text-muted">(should be identical)</span></label>
-                <input type="password" class="form-control" id="password2" minlength="8" maxlength="20" th:field="*{passwordConfirm}" >
-            </div>
-        </div>
-        <br>
-        <button class="btn btn-primary btn-secondary btn-block" type="submit">Register</button>
-        <br><br>
-        <!--                    <button class="btn btn-primary btn-secondary btn-block" type="submit">Clear All</button>-->
     </form>
 
 </div>

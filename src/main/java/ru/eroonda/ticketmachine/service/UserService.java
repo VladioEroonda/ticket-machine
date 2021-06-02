@@ -14,8 +14,8 @@ import java.util.List;
 
 
 public interface UserService {
-    public List<Ticket> getUserTickets(User user);
-    public User getUserById(int userId);
-    public User findByEmail(String email);
-    public boolean addUser(User user);
+    List<Ticket> getUserTickets(User user);
+    User getUserById(int userId);
+    User findByEmail(String email);
+    boolean addUser(User user);
 }

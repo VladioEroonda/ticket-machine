@@ -12,12 +12,12 @@
         <div style="text-align: center;"><img class="mb-4" th:src="@{/images/login-logo.png}" width="200" height="150">
         </div>
         <br>
-        <!--                    Invalid username and password.-->
+
         <div th:if="${param.error}">
             <div class="alert alert-danger" role="alert">
                 Invalid username and password.
             </div>
-            <!--                        You have been logged out.-->
+
         </div>
         <div th:if="${param.logout}">
             <div class="alert alert-warning" role="alert">
@@ -29,14 +29,13 @@
         <label for="inputEmail" class="visually-hidden">Email address:</label>
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required>
         <label for="inputPassword" class="visually-hidden">Password:</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" minlength="10" maxlength="25" required>
         <div class="checkbox mb-3">
-            <!--            TODO:impl remember me-->
             <label>
-                <input type="checkbox" value="remember-me" disabled> Remember me
+                <input type="checkbox" value="remember-me" name="remember-me"> Remember me
             </label>
         </div>
-        <button class="btn btn-lg btn-secondary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-secondary btn-block" type="submit">Log in</button>
     </form>
     <br>
     <p align="center">Still havn't got any account? <a th:href="@{/auth/registration}" style="color: grey">Register

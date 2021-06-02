@@ -25,7 +25,7 @@ public class SystemController {
     @GetMapping("")
     public String openMainSystemPage(Model model) {
 
-        User principal =(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println(principal.getEmail());
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
@@ -65,6 +65,11 @@ public class SystemController {
         return "ticket_info";
     }
 
+    @PostMapping("/search")
+    public String startSearchMechanic() {
+//TODO:реализовать механику поиска (мб по номеру или тексту)
+        return "search_result_list";
+    }
 
 
 }

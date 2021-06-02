@@ -33,34 +33,26 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="/about">About System</a>
                     </li>
-                    <!--                    Это видно онли неавторизированным-->
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/auth/registration">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/auth/login">Log in</a>
-                    </li>
 
+                    <div sec:authorize="!isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/auth/registration">Register</a>
+                        </li>
+                    </div>
+                    <div sec:authorize="!isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/auth/login">Log in</a>
+                        </li>
+                    </div>
 
-                    <!--                    Это авторизованным с ролью USER -->
-                    <!--                    <li class="nav-item">-->
-                    <!--                        <a class="nav-link active" aria-current="page" href="#">Create a Ticket</a>-->
-                    <!--                    </li>-->
-
-
-                    <!--                    <li class="nav-item dropdown">-->
-                    <!--                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">-->
-                    <!--                           userName-->
-                    <!--                        </a>-->
-                    <!--                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-                    <!--                            <li><a class="dropdown-item" href="#">Action</a></li>-->
-                    <!--                            <li><a class="dropdown-item" href="#">Another action</a></li>-->
-                    <!--                            <li><hr class="dropdown-divider"></li>-->
-                    <!--                            <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-                    <!--                        </ul>-->
-                    <!--                    </li>-->
+                    <div sec:authorize="hasRole('ROLE_USER')">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" aria-current="page" href="/ticket_machine/new">Create a Ticket</a>
+                                        </li>
+                    </div>
                 </ul>
 
+                <div sec:authorize="isAuthenticated()">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
                     <li class="navbar-text">
                         Hello,
@@ -68,8 +60,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-expanded="false">
-                            userName!
+                            <span sec:authentication="name">User</span>
                         </a>
+
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="/ticket_machine">My Tickets</a></li>
                             <li>
@@ -81,6 +74,8 @@
                         </ul>
                     </li>
                 </ul>
+                </div>
+                <div sec:authorize="isAuthenticated()">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="margin-right: 10px">
                     <li class="nav-item" style="margin-left: 10px">
                         <form action="/logout">
@@ -90,11 +85,14 @@
                     <li class="nav-item" style="margin-left: 15px">
                     </li>
                 </ul>
-                <!--                Тут акшон пропиши-->
-                <form class="d-flex" action="">
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                <!--TODO: тут нужно поле настроить - задать имя переменной и принять в контроллере-->
+                <form class="d-flex" action="/auth/search" method="post">
                     <input class="form-control mr-2" type="search" placeholder="Search your Ticket" aria-label="Search">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
+                </div>
             </div>
         </div>
     </nav>
@@ -113,9 +111,6 @@
 
 
 <!--ТУТ БУДУТ ВСТАВЛЯТЬСЯ КУСКИ-->
-<!--                    <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Main System page</h3></div>-->
-<!--                    <br><br><br>-->
-
 
                 </div>
             </div>
@@ -125,25 +120,10 @@
     </div>
 </main>
 
-<!--<main>-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-sm">-->
-<!--            </div>-->
-<!--            <div class="col-sm">-->
-<!--                <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Main System page</h3></div>-->
-<!--                <br><br><br>-->
-<!--                                    TУТ ВСЕ ИЗМЕНЕНИЯ, ИМЕННО В ЭТОЙ ЧАСТИ-->
-<!--            </div>-->
-<!--            <div class="col-sm">-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</main>-->
-
+<div class="container" style="margin-top: 100px"></div>
 <footer class="mb-auto text-white-50">
     <nav class="navbar fixed-bottom navbar-dark" style="background-color: #1b1e21">
-        <div class="container">
+        <div class="container" >
             <div class="row">
                 <div class="col-sm">
                 </div>
