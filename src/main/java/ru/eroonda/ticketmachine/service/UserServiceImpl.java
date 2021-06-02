@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.eroonda.ticketmachine.entity.Role;
 import ru.eroonda.ticketmachine.entity.Ticket;
 import ru.eroonda.ticketmachine.entity.User;
+import ru.eroonda.ticketmachine.enums.UserRoles;
 import ru.eroonda.ticketmachine.repository.TicketRepository;
 import ru.eroonda.ticketmachine.repository.UserRepository;
 
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService{
         }
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setRoles(Collections.singleton(new Role(user.getId(), "ROLE_USER")));
+        user.setRoles(Collections.singleton(new Role(1, UserRoles.ROLE_USER)));
         userRepository.save(user);
         return true;
     }

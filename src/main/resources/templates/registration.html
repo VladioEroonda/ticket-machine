@@ -33,9 +33,9 @@
 
             <div class="col-12">
                 <label for="phone" class="form-label">Phone number: <span
-                        class="text-muted">(must match with template: 8(***)*******)</span> </label>
+                        class="text-muted">(must match with template: 8(9**)***-**-**)</span> </label>
                 <input type="tel" th:field="*{phoneNumber}"  class="form-control" id="phone"
-                       placeholder="8(***)*******">
+                       placeholder="8(9**)***-**-**)">
 
                 <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('phoneNumber')}"
                      th:errors="*{phoneNumber}"></div>

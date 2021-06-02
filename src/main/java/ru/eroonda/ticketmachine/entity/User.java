@@ -29,13 +29,14 @@ public class User implements UserDetails {
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")
     @Column(name="user_email")
     private String email;
-    @NotBlank
-    @Size(min = 10, max = 25, message = "10 to 25")
+//    @NotBlank
+//    @Size(min = 10, max = 25, message = "10 to 25")
+//    @Size(min = 10)
     @Column(name="user_password")
     private String password;
     @Transient
-    @NotBlank
-    @Size(min = 10, max = 25, message = "10 to 25")
+//    @NotBlank
+//    @Size(min = 10, max = 25, message = "10 to 25")
     private String passwordConfirm;
     @Column(name="user_enabled")
     private boolean isEnabled;
@@ -47,7 +48,7 @@ public class User implements UserDetails {
     private List<Ticket> ticketListAsUser;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "engineer",fetch = FetchType.LAZY)
     private List<Ticket> ticketListAsEngineer;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(name = "user_info_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 

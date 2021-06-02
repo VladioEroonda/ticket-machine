@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS ticket_message;
 DROP TABLE IF EXISTS role_list;
 DROP TABLE IF EXISTS user_info;
 DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS ticket_comments;
 
 CREATE TABLE user_info
 (
@@ -57,12 +58,15 @@ CREATE TABLE tickets
 
 CREATE TABLE ticket_comments(
     comment_id SERIAL,
-    ticket_id NOT NULL,
+    ticket_id INTEGER NOT NULL,
+    comment_author_id INTEGER NOT NULL,
+    comment_date TIMESTAMP NOT NULL,
     comment_message VARCHAR (2000),
     PRIMARY KEY (comment_id),
-    FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id)
+    FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id),
+    FOREIGN KEY (comment_author_id) REFERENCES user_info(user_id)
 );
 
-
--- INSERT INTO users (user_name, user_surname, user_email, user_password, user_role, user_phone)
--- VALUES ('Vlad', 'Eroonder', 'vladio@site.com', 'vlad1234', 'CLIENT', '123456789');
+-- INSERT INTO roles_list (role_name) VALUE (ROLE_USER);
+-- INSERT INTO roles_list (role_name) VALUE (ROLE_ENGINEER);
+-- INSERT INTO roles_list (role_name) VALUE (ROLE_ADMIN);

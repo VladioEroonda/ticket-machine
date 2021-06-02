@@ -1,6 +1,7 @@
 package ru.eroonda.ticketmachine.entity;
 
 import org.springframework.security.core.GrantedAuthority;
+import ru.eroonda.ticketmachine.enums.UserRoles;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,11 +14,12 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_id")
     private int id;
     @Column(name = "role_name")
-    private String roleName;
+    @Enumerated(EnumType.STRING)
+    private UserRoles roleName;
     @Transient
-    @JoinTable(name = "user_info_roles",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+//    @JoinTable(name = "user_info_roles",
+//            joinColumns = @JoinColumn(name = "role_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
@@ -28,7 +30,7 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public Role(int id, String roleName) {
+    public Role(int id, UserRoles roleName) {
         this.id = id;
         this.roleName = roleName;
     }
@@ -41,11 +43,11 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getRoleName() {
+    public UserRoles getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(String roleName) {
+    public void setRoleName(UserRoles roleName) {
         this.roleName = roleName;
     }
 
@@ -59,7 +61,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return getRoleName();
+        return getRoleName().name();
     }
 
     @Override
