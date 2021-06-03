@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.eroonda.ticketmachine.dto.UserDto;
+import ru.eroonda.ticketmachine.service.ConfirmationTokenService;
 import ru.eroonda.ticketmachine.service.UserService;
 
 import javax.validation.Valid;
@@ -16,6 +17,8 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    ConfirmationTokenService confirmationTokenService;
 
     @GetMapping("/registration")
     public String openNewUserRegistrationPage(Model model) {
@@ -44,6 +47,16 @@ public class AuthController {
     @GetMapping("/registration_success")
     public String registrationSuccessPage() {
         return "registration_success";
+    }
+
+    @GetMapping("/token_confirmed")
+    public String afterTokenConfirmedPage() {
+        return "token_confirmed";
+    }
+
+    @GetMapping("/confirm")
+    public String tokenConfirmationProcessPage(@RequestParam("token") String token) {
+        return confirmationTokenService.confirmToken(token);
     }
 
 }

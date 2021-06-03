@@ -12,4 +12,5 @@ public interface UserService {
     User getUserById(int userId);
     User findByEmail(String email);
     String addUser(UserDto user, BindingResult bindingResult);
+    void enableUserAccount(String email);
 }

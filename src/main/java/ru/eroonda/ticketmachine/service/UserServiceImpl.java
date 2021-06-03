@@ -2,11 +2,13 @@ package ru.eroonda.ticketmachine.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import ru.eroonda.ticketmachine.dto.UserDto;
+import ru.eroonda.ticketmachine.entity.ConfirmationToken;
 import ru.eroonda.ticketmachine.entity.Role;
 import ru.eroonda.ticketmachine.entity.Ticket;
 import ru.eroonda.ticketmachine.entity.User;
@@ -14,9 +16,11 @@ import ru.eroonda.ticketmachine.enums.UserRoles;
 import ru.eroonda.ticketmachine.repository.TicketRepository;
 import ru.eroonda.ticketmachine.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private TicketRepository ticketRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ConfirmationTokenService confirmationTokenService;
 
     @Override
     @Transactional
@@ -69,14 +75,37 @@ public class UserServiceImpl implements UserService {
             return "registration";
         }
 
-        userRepository.save(new User(
+        User validatedUser = new User(
                 userFromRequest.getName(),
                 userFromRequest.getSurname(),
                 userFromRequest.getEmail(),
                 passwordEncoder.encode(userFromRequest.getPassword()),
                 userFromRequest.getPhoneNumber(),
                 Collections.singleton(new Role(1, UserRoles.ROLE_USER))
-        ));
+        );
+
+        userRepository.save(validatedUser);
+
+        String token = UUID.randomUUID().toString();
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                validatedUser
+        );
+
+        confirmationTokenService.saveConfirmationToken(
+                confirmationToken);
+
+
         return "redirect:registration_success";
+    }
+
+    @Override
+    @Transactional
+    public void enableUserAccount(String email) {
+        User user = findByEmail(email);
+        user.setEnabled(true);
     }
 }

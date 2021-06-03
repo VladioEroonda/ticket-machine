@@ -13,12 +13,17 @@
         </div>
         <br>
 
-        <div th:if="${param.error}">
-            <div class="alert alert-danger" role="alert">
-                Invalid username and password.
+<!--        <div th:if="${param.error}">-->
+<!--            <div class="alert alert-danger" role="alert">-->
+<!--                Invalid username and password.-->
+<!--            </div>-->
+<!--        </div>-->
+            <div class="dialog-row">
+                <label th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+                       class="alert alert-danger">Oopps..</label>
             </div>
 
-        </div>
+
         <div th:if="${param.logout}">
             <div class="alert alert-warning" role="alert">
                 You have been logged out.
@@ -29,7 +34,8 @@
         <label for="inputEmail" class="visually-hidden">Email address:</label>
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required>
         <label for="inputPassword" class="visually-hidden">Password:</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" minlength="10" maxlength="25" required>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password"
+               minlength="10" maxlength="25" required>
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me" name="remember-me"> Remember me

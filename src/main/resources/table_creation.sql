@@ -1,8 +1,10 @@
+DROP TABLE IF EXISTS reg_confirmation_token;
+DROP TABLE IF EXISTS user_info;
+
+DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS ticket_message;
 DROP TABLE IF EXISTS role_list;
-DROP TABLE IF EXISTS user_info;
-DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS ticket_comments;
 
 CREATE TABLE user_info
@@ -65,6 +67,17 @@ CREATE TABLE ticket_comments(
     PRIMARY KEY (comment_id),
     FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id),
     FOREIGN KEY (comment_author_id) REFERENCES user_info(user_id)
+);
+
+CREATE TABLE reg_confirmation_token(
+                                       token_id SERIAL,
+                                       token varchar(300) NOT NULL,
+                                       token_created TIMESTAMP NOT NULL,
+                                       token_expired TIMESTAMP NOT NULL,
+                                       token_confirmed TIMESTAMP,
+                                       token_user_id INTEGER NOT NULL,
+                                       PRIMARY KEY (token_id),
+                                       FOREIGN KEY(token_user_id) REFERENCES user_info(user_id)
 );
 
 -- INSERT INTO roles_list (role_name) VALUE (ROLE_USER);

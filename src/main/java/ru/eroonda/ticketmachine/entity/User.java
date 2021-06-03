@@ -24,7 +24,7 @@ public class User implements UserDetails {
     @Column(name="user_password")
     private String password;
     @Column(name="user_enabled")
-    private boolean isEnabled = true;
+    private boolean isEnabled=false;//enabled by default ofc
     @Column(name = "user_phone")
     private String phoneNumber;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client", fetch = FetchType.LAZY)//FetchType.LAZY дефолт
@@ -144,7 +144,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isEnabled;
     }
 
     @Override
