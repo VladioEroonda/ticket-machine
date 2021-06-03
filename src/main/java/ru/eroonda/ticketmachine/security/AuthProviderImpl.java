@@ -13,10 +13,7 @@ import org.springframework.stereotype.Component;
 import ru.eroonda.ticketmachine.entity.User;
 import ru.eroonda.ticketmachine.service.UserService;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {

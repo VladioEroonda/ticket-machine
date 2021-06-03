@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import ru.eroonda.ticketmachine.entity.User;
+import ru.eroonda.ticketmachine.dto.UserDto;
 import ru.eroonda.ticketmachine.service.UserService;
 
 import javax.validation.Valid;
@@ -21,32 +19,15 @@ public class AuthController {
 
     @GetMapping("/registration")
     public String openNewUserRegistrationPage(Model model) {
-        model.addAttribute("newUser", new User());
+        model.addAttribute("newUser", new UserDto());
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String registrationNewUserHandler(@Valid @ModelAttribute("newUser") User user
+    public String registrationNewUserHandler(@Valid @ModelAttribute("newUser") UserDto userFromRequest
             , BindingResult bindingResult) {
 
-        if(userService.findByEmail(user.getEmail())!=null){
-            bindingResult.rejectValue("email", "error.email",
-                    "User with this email already exist at base. Choose another email");
-        }
-
-        if(!user.getPassword().equals(user.getPasswordConfirm())){
-            bindingResult.rejectValue("passwordConfirm", "error.passwordConfirm",
-                    "This password does not match that entered in the password field, please try again.");
-
-        }
-        //TODO: refactor that code by adding DTO, something like that(https://youtu.be/QwQuro7ekvc?t=3435)
-
-        if(bindingResult.hasErrors()){
-            return "registration";
-        }
-
-        userService.addUser(user);
-        return "redirect:registration_success";
+        return userService.addUser(userFromRequest,bindingResult );
     }
 
     @RequestMapping("/login")

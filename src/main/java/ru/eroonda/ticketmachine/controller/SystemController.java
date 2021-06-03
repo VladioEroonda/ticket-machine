@@ -1,6 +1,5 @@
 package ru.eroonda.ticketmachine.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,22 +17,18 @@ import java.util.List;
 @RequestMapping("/ticket_machine")
 public class SystemController {
     @Autowired
-    UserService userService;//да-да так никто не делает, потом отрефакторю
+    UserService userService;
     @Autowired
-    TicketService ticketService;//да-да так никто не делает, потом отрефакторю
+    TicketService ticketService;
 
     @GetMapping("")
     public String openMainSystemPage(Model model) {
 
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(principal.getEmail());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-
-        //TODO: временно пока не узнаю как получать юзера из сессии
-        User user = userService.getUserById(2);
-        //
-        List<Ticket> userTicketList = userService.getUserTickets(user);
-        System.out.println(userTicketList.size());
+        System.out.println("get session user id" + principal.getId());
+        List<Ticket> userTicketList = userService.findTicketsByClientId(principal.getId());
+        System.out.println("getting list size: " + userTicketList.size());
+        System.out.println("is that list null? " + (userTicketList==null));
 
         model.addAttribute("userTickets", userTicketList);
 

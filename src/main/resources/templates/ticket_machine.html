@@ -24,12 +24,12 @@
         </thead>
         <tbody>
         <th:block th:if="${userTickets.size()==0}">
+<!--        <th:block th:if="${#lists.isEmpty(userTickets)}">-->
             <tr>
                 <td colspan="6">
-                    <div style="text-align: center;">
-
-                        <h5 th:text="You have no tickets yet">You have no tickets yet</h5>
-
+                    <div style="text-align: center">
+<!--                        //th:text="You have no tickets yet"-->
+                        <h5>You have no tickets yet</h5>
                     </div>
                 </td>
             </tr>
