@@ -2,12 +2,13 @@ package ru.eroonda.ticketmachine.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import ru.eroonda.ticketmachine.dto.UserDto;
+import ru.eroonda.ticketmachine.email.EmailMessageBuilder;
+import ru.eroonda.ticketmachine.email.EmailSender;
 import ru.eroonda.ticketmachine.entity.ConfirmationToken;
 import ru.eroonda.ticketmachine.entity.Role;
 import ru.eroonda.ticketmachine.entity.Ticket;
@@ -32,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
+    @Autowired
+    EmailSender emailSender;
 
     @Override
     @Transactional
@@ -94,10 +97,14 @@ public class UserServiceImpl implements UserService {
                 LocalDateTime.now().plusMinutes(15),
                 validatedUser
         );
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        confirmationTokenService.saveConfirmationToken(
-                confirmationToken);
-
+        emailSender.send(validatedUser.getEmail(),
+                "Confirm your account at TicketMachine",
+                EmailMessageBuilder.getValidationMessage(
+                        token,
+                        validatedUser.getName(),
+                        validatedUser.getSurname()));
 
         return "redirect:registration_success";
     }
