@@ -80,6 +80,17 @@ CREATE TABLE reg_confirmation_token(
                                        FOREIGN KEY(token_user_id) REFERENCES user_info(user_id)
 );
 
+CREATE TABLE reset_password_confirmation_token(
+                                       token_id SERIAL,
+                                       token varchar(300) NOT NULL,
+                                       token_created TIMESTAMP NOT NULL,
+                                       token_expired TIMESTAMP NOT NULL,
+                                       token_confirmed TIMESTAMP,
+                                       token_user_id INTEGER NOT NULL,
+                                       PRIMARY KEY (token_id),
+                                       FOREIGN KEY(token_user_id) REFERENCES user_info(user_id)
+);
+
 -- INSERT INTO roles_list (role_name) VALUE (ROLE_USER);
 -- INSERT INTO roles_list (role_name) VALUE (ROLE_ENGINEER);
 -- INSERT INTO roles_list (role_name) VALUE (ROLE_ADMIN);

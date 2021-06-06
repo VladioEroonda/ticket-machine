@@ -16,10 +16,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_name")
     @Enumerated(EnumType.STRING)
     private UserRoles roleName;
-    @Transient
-//    @JoinTable(name = "user_info_roles",
-//            joinColumns = @JoinColumn(name = "role_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id"))
+//    @Transient
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_template/pages_main_template.html}">
+<body>
+<div layout:fragment="content_part">
+
+                <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Password reset</h3></div>
+                        <br>
+    <div style="text-align: center"><p>Enter your email address and click the button - an email will be sent to you with a link to reset your password.</p></div>
+    <br>
+
+    <form th:action="@{/auth/reset_password_email_validation}" method="post" th:object="${emailValidator}">
+        <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('email')}"
+             th:errors="*{email}"></div>
+        <h5 class="h5 mb-3 font-weight-normal">Please enter your <b>correct</b> account email:</h5>
+        <label for="inputEmail" class="visually-hidden">Email address:</label>
+        <input type="email" th:field="*{email}"  id="inputEmail" class="form-control" placeholder="Email address" required>
+        <button class="btn btn-lg btn-secondary btn-block" type="submit">Confirm</button>
+    </form>
+
+</div>
+</body>
+</html>

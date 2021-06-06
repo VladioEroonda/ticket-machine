@@ -26,29 +26,20 @@ public class EmailService implements EmailSender {
     @Override
     @Async
     public void send(String to, String emailSubject, String emailMessage) {
+
         try {
-            System.out.println("to:::::" + to);
-//            MimeMessage mimeMessage = mailSender.createMimeMessage();
-//            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-////            helper.setSentDate();
-//            helper.setSubject(emailSubject);
-//            helper.setText(emailMessage, true);
-//            helper.setTo(to);
-////            helper.setFrom("account_validator@ticketmachine.ru");
-//            mailSender.send(mimeMessage);
+            LOGGER.info("start to send a mail to" + to + " subject: " + emailSubject);
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("ticketmachine8@gmail.com");
             message.setTo(to);
             message.setSubject(emailSubject);
             message.setText(emailMessage);
             mailSender.send(message);
+            LOGGER.info("Email was successfully send to" + to + " subject: " + emailSubject);
 
         } catch (MailException e){
-//            LOGGER.error("failed to send email to: " + to,e );
-//            throw new IllegalStateException("failed to send email to: " + to);
-            e.printStackTrace();
+            LOGGER.error("failed to send email to: " + to + " subject:" + emailSubject, e );
+            throw new IllegalStateException("failed to send email to: " + to + " subject:" + emailSubject);
         }
-
-
     }
 }

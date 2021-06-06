@@ -1,4 +1,4 @@
-package ru.eroonda.ticketmachine.service;
+package ru.eroonda.ticketmachine.service.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,16 +6,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import ru.eroonda.ticketmachine.dto.PasswordResetDto;
 import ru.eroonda.ticketmachine.dto.UserDto;
 import ru.eroonda.ticketmachine.email.EmailMessageBuilder;
 import ru.eroonda.ticketmachine.email.EmailSender;
-import ru.eroonda.ticketmachine.entity.ConfirmationToken;
-import ru.eroonda.ticketmachine.entity.Role;
-import ru.eroonda.ticketmachine.entity.Ticket;
-import ru.eroonda.ticketmachine.entity.User;
+import ru.eroonda.ticketmachine.entity.*;
 import ru.eroonda.ticketmachine.enums.UserRoles;
+import ru.eroonda.ticketmachine.repository.ResetPasswordConfirmationTokenRepository;
 import ru.eroonda.ticketmachine.repository.TicketRepository;
 import ru.eroonda.ticketmachine.repository.UserRepository;
+import ru.eroonda.ticketmachine.service.RegistrationConfirmationTokenService;
+import ru.eroonda.ticketmachine.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,9 +33,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private ConfirmationTokenService confirmationTokenService;
+    private RegistrationConfirmationTokenService registrationConfirmationTokenService;
     @Autowired
-    EmailSender emailSender;
+    private EmailSender emailSender;
+    @Autowired
+    private ResetPasswordConfirmationTokenRepository resetPasswordConfirmationTokenRepository;
 
     @Override
     @Transactional
@@ -46,7 +49,6 @@ public class UserServiceImpl implements UserService {
 
         return allUserTickets;
     }
-
 
     @Override
     @Transactional
@@ -91,13 +93,13 @@ public class UserServiceImpl implements UserService {
 
         String token = UUID.randomUUID().toString();
 
-        ConfirmationToken confirmationToken = new ConfirmationToken(
+        RegistrationConfirmationToken registrationConfirmationToken = new RegistrationConfirmationToken(
                 token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
                 validatedUser
         );
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        registrationConfirmationTokenService.saveConfirmationToken(registrationConfirmationToken);
 
         emailSender.send(validatedUser.getEmail(),
                 "Confirm your account at TicketMachine",
@@ -106,7 +108,7 @@ public class UserServiceImpl implements UserService {
                         validatedUser.getName(),
                         validatedUser.getSurname()));
 
-        return "redirect:registration_success";
+        return "registration_success";
     }
 
     @Override
@@ -114,5 +116,40 @@ public class UserServiceImpl implements UserService {
     public void enableUserAccount(String email) {
         User user = findByEmail(email);
         user.setEnabled(true);
+    }
+
+    @Override
+    @Transactional
+    public String changeUserPassword(PasswordResetDto passwordResetDto, BindingResult bindingResult) {
+
+        if (!passwordResetDto.getPassword().equals(passwordResetDto.getPasswordConfirmed())) {
+            bindingResult.rejectValue("passwordConfirmed", "error.passwordConfirmed",
+                    "This password does not match that entered in the password field, please try again.");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "new_password_form";
+        }
+
+        System.out.println("password resetDTO is: " + passwordResetDto);
+
+        User user = userRepository.findByEmail(passwordResetDto.getEmail());
+
+        if (user == null) {
+            throw new IllegalArgumentException("user was not found by that email:" + passwordResetDto.getEmail());
+        }
+
+        ResetPasswordConfirmationToken resetPasswordToken = resetPasswordConfirmationTokenRepository
+                .findByToken(passwordResetDto.getToken())
+                .orElseThrow(()->
+                        new IllegalArgumentException("token not found"));
+
+        resetPasswordToken.setConfirmedAt(LocalDateTime.now());
+        resetPasswordConfirmationTokenRepository.save(resetPasswordToken);
+
+        user.setPassword(passwordEncoder.encode(passwordResetDto.getPassword()));
+        userRepository.save(user);
+
+        return "new_password_success";
     }
 }

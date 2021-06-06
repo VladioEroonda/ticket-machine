@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reg_confirmation_token")
-public class ConfirmationToken {
+public class RegistrationConfirmationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "token_id")
@@ -18,17 +18,17 @@ public class ConfirmationToken {
     private LocalDateTime expiredAt;
     @Column(name = "token_confirmed")
     private LocalDateTime confirmedAt;
-    @ManyToOne//(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "token_user_id")
     private User user;
 
-    public ConfirmationToken() {
+    public RegistrationConfirmationToken() {
     }
 
-    public ConfirmationToken(String token,
-                             LocalDateTime createdAt,
-                             LocalDateTime expiredAt,
-                             User user) {
+    public RegistrationConfirmationToken(String token,
+                                         LocalDateTime createdAt,
+                                         LocalDateTime expiredAt,
+                                         User user) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiredAt = expiredAt;

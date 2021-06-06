@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/ticket_machine/**").authenticated()
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/auth/*").anonymous()
+                .antMatchers("/auth/**").anonymous()
                 .antMatchers("/","/about", "/images/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

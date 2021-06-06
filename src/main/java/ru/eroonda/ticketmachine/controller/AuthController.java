@@ -5,8 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.eroonda.ticketmachine.dto.EmailValidatorDto;
+import ru.eroonda.ticketmachine.dto.PasswordResetDto;
 import ru.eroonda.ticketmachine.dto.UserDto;
-import ru.eroonda.ticketmachine.service.ConfirmationTokenService;
+import ru.eroonda.ticketmachine.service.RegistrationConfirmationTokenService;
+import ru.eroonda.ticketmachine.service.ResetPasswordTokenConfirmationService;
 import ru.eroonda.ticketmachine.service.UserService;
 
 import javax.validation.Valid;
@@ -18,7 +21,9 @@ public class AuthController {
     @Autowired
     private UserService userService;
     @Autowired
-    ConfirmationTokenService confirmationTokenService;
+    RegistrationConfirmationTokenService registrationConfirmationTokenService;
+    @Autowired
+    ResetPasswordTokenConfirmationService resetPasswordTokenConfirmationService;
 
     @GetMapping("/registration")
     public String openNewUserRegistrationPage(Model model) {
@@ -30,7 +35,7 @@ public class AuthController {
     public String registrationNewUserHandler(@Valid @ModelAttribute("newUser") UserDto userFromRequest
             , BindingResult bindingResult) {
 
-        return userService.addUser(userFromRequest,bindingResult );
+        return userService.addUser(userFromRequest, bindingResult);
     }
 
     @RequestMapping("/login")
@@ -38,25 +43,46 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/restore")
-    public String openAccountRestorePage() {
 
-        return "restore";
-    }
-
-    @GetMapping("/registration_success")
-    public String registrationSuccessPage() {
-        return "registration_success";
-    }
-
-    @GetMapping("/token_confirmed")
-    public String afterTokenConfirmedPage() {
-        return "token_confirmed";
-    }
-
-    @GetMapping("/confirm")
+    @GetMapping("/registration_confirming")
     public String tokenConfirmationProcessPage(@RequestParam("token") String token) {
-        return confirmationTokenService.confirmToken(token);
+        return registrationConfirmationTokenService.confirmToken(token);
+    }
+
+    @GetMapping("/reset_password_email_validation")
+    public String openEmailValidatorForPasswordResetPage(Model model) {
+        model.addAttribute("emailValidator", new EmailValidatorDto());
+        return "email_validate_for_pass_reset";
+    }
+
+    @PostMapping("/reset_password_email_validation")
+    public String passwordResetEmailValidatingAction(@Valid
+                                                     @ModelAttribute("emailValidator")
+                                                             EmailValidatorDto emailValidatorDto
+            , BindingResult bindingResult
+    ) {
+        return resetPasswordTokenConfirmationService.confirmEmail(emailValidatorDto, bindingResult);
+    }
+
+    @GetMapping("/reset_info")
+    public String registrationSuccessPage() {
+        return "reset_password_email_confirmed";
+    }
+
+    @GetMapping("/new_password")
+    public String newPasswordCreatingPage(@RequestParam("token") String token, Model model) {
+        String email = resetPasswordTokenConfirmationService.confirmTokenAndReturnEmail(token);
+        model.addAttribute("passwordResetDto", new PasswordResetDto(email, token));
+        return "new_password_form";
+    }
+
+    @PostMapping("/new_password")
+    public String newPasswordConfirmed(@Valid
+                                       @ModelAttribute("passwordResetDto")
+                                               PasswordResetDto passwordResetDto
+            , BindingResult bindingResult
+    ) {
+        return userService.changeUserPassword(passwordResetDto, bindingResult);
     }
 
 }
