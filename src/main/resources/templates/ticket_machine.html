@@ -24,11 +24,11 @@
         </thead>
         <tbody>
         <th:block th:if="${userTickets.size()==0}">
-<!--        <th:block th:if="${#lists.isEmpty(userTickets)}">-->
+            <!--        <th:block th:if="${#lists.isEmpty(userTickets)}">-->
             <tr>
                 <td colspan="6">
                     <div style="text-align: center">
-<!--                        //th:text="You have no tickets yet"-->
+                        <!--                        //th:text="You have no tickets yet"-->
                         <h5>You have no tickets yet</h5>
                     </div>
                 </td>
@@ -42,8 +42,13 @@
                 <td th:text="${#temporals.format(ticket.creationTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
                 <td th:text="${#temporals.format(ticket.closingTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
                 <td>
+                    <span th:if="${ticket.engineer == null}">
+                        <p>No Engineer yet</p>
+                    </span>
+                    <span th:unless="${ticket.engineer == null}">
                     <a th:href="@{/ticket_machine/engineer_info/{id}(id=${ticket.engineer.id})}"
-                       th:text="${ticket.engineer.name + ' ' + ticket.engineer.surname}"/>
+                    th:text="${ticket.engineer.name + ' ' + ticket.engineer.surname}"/>
+                    </span>
                 </td>
                 <td th:text="${ticket.subject}"></td>
             </tr>
@@ -52,7 +57,7 @@
         <tfoot>
         </tfoot>
     </table>
-    <form th:action="@{/ticket_machine/new}" th:method="get">
+    <form th:action="@{/ticket_machine/new_ticket}" th:method="get">
         <input class="btn btn-lg btn-secondary btn-block" type="submit" value="Create a new Ticket">
     </form>
 

@@ -47,7 +47,7 @@
 
                     <div sec:authorize="hasRole('ROLE_USER')">
                                         <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" href="/ticket_machine/new">Create a Ticket</a>
+                                            <a class="nav-link active" aria-current="page" href="/ticket_machine/new_ticket">Create a Ticket</a>
                                         </li>
                     </div>
                 </ul>
@@ -88,7 +88,7 @@
                 </div>
                 <div sec:authorize="isAuthenticated()">
                 <!--TODO: тут нужно поле настроить - задать имя переменной и принять в контроллере-->
-                <form class="d-flex" action="/auth/search" method="post">
+                <form class="d-flex" th:action="@{search}" method="post">
                     <input class="form-control mr-2" type="search" placeholder="Search your Ticket" aria-label="Search">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>

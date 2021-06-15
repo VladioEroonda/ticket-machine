@@ -14,7 +14,7 @@ public class TicketComment {
     private LocalDateTime commentDate;
     @Column(name = "comment_message")
     private String messageText;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)// cascade = CascadeType.REFRESH?
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -27,6 +27,13 @@ public class TicketComment {
     public TicketComment(LocalDateTime commentDate, String messageText) {
         this.commentDate = commentDate;
         this.messageText = messageText;
+    }
+
+    public TicketComment(LocalDateTime commentDate, String messageText, Ticket ticket, User author) {
+        this.commentDate = commentDate;
+        this.messageText = messageText;
+        this.ticket = ticket;
+        this.author = author;
     }
 
     public int getId() {

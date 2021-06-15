@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.eroonda.ticketmachine.dto.CommentValidatorDto;
+import ru.eroonda.ticketmachine.dto.CommentDto;
+import ru.eroonda.ticketmachine.dto.TicketDto;
 import ru.eroonda.ticketmachine.entity.Ticket;
 import ru.eroonda.ticketmachine.entity.TicketMessage;
 import ru.eroonda.ticketmachine.entity.User;
@@ -41,16 +42,24 @@ public class SystemController {
         return "ticket_machine";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/new_ticket")
     public String openNewTicketCreatePage(Model model) {
-        model.addAttribute("newTicket", new Ticket(new TicketMessage()));
+        model.addAttribute("newTicket", new TicketDto());
         return "new_ticket";
     }
 
-    @PostMapping("/new")
-    public String newTicketCreationHandler(@ModelAttribute("newTicket") Ticket ticket) {
-        //TODO:Тут обработать, задать статус new, вставить дату .now, задать юзера
-        return "";
+    @PostMapping("/new_ticket")
+    public String newTicketCreationHandler(@Valid @ModelAttribute("newTicket") TicketDto ticketDto,
+                                           BindingResult bindingResult) {
+
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ticketService.addNewTicket(ticketDto, principal.getId());
+
+        if (bindingResult.hasErrors()) {
+            return "new_ticket";
+        }
+
+        return "redirect:/ticket_machine";
     }
 
     @GetMapping("/engineer_info/{id}")
@@ -63,23 +72,33 @@ public class SystemController {
     public String openTicketInfoPage(@PathVariable("id") int ticketId, Model model) {
         model.addAttribute("ticket", ticketService.getTicketById(ticketId));
         model.addAttribute("comments", ticketCommentService.getCommentsById(ticketId));
-        model.addAttribute("addNewComment", new CommentValidatorDto());
+        model.addAttribute("addNewComment", new CommentDto());
 
         return "ticket_info";
     }
 
     @PostMapping("/search")
     public String startSearchMechanic() {
-//TODO:реализовать механику поиска (мб по номеру или тексту)
+         //TODO:реализовать механику поиска (мб по номеру или тексту)
         return "search_result_list";
     }
 
     @PostMapping("/new_comment")
-    public String addNewTicketComment(@Valid @ModelAttribute("addNewComment")
-                                      CommentValidatorDto commentValidatorDto,
+    public String addNewTicketComment(@RequestParam(name = "tic_id") int ticketId,
+            @Valid @ModelAttribute("addNewComment")
+                                              CommentDto commentDto,
                                       BindingResult bindingResult) {
-        //TODO:обработать довление коммента и возврат на страницу, мб нужно добавлять хайден поле с айди тикета
-        return "";
+
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ticketCommentService.addNewComment(commentDto, ticketId, principal.getId());
+
+//        if (bindingResult.hasErrors()) {
+//            return "redirect:ticket_info/"+ticketId;
+//        }
+
+        bindingResult.hasErrors();
+
+        return "redirect:ticket_info/"+ticketId;
     }
 
 }

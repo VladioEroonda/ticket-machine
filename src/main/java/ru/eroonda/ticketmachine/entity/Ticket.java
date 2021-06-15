@@ -41,6 +41,14 @@ public class Ticket {
         this.message = message;
     }
 
+    public Ticket(LocalDateTime creationTime, User client, TicketStatus status, String subject, TicketMessage message) {
+        this.creationTime = creationTime;
+        this.client = client;
+        this.status = status;
+        this.subject = subject;
+        this.message = message;
+    }
+
     public int getId() {
         return id;
     }

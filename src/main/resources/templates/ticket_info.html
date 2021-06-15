@@ -40,12 +40,22 @@
 
         <tr class="align-middle">
             <td th:text="'Engineer: '">Engineer:</td>
+            <span th:if="${ticket.engineer == null}">
+            <td th:text="'No engineer yet'"></td>
+            </span>
+            <span th:unless="${ticket.engineer == null}">
             <td th:text="*{engineer.name + ' ' + engineer.surname}"></td>
+            </span>
         </tr>
 
         <tr class="align-middle">
             <td th:text="'Closing date: '">Closing date:</td>
+            <span th:if="${ticket.closingTime == null}">
+            <td th:text="'No closing Time for now'"></td>
+            </span>
+            <span th:unless="${ticket.closingTime == null}">
             <td th:text="*{#temporals.format(closingTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+            </span>
         </tr>
 
         <tr class="align-middle">
@@ -77,47 +87,45 @@
         </tr>
     </th:block>
 
-        <th:block th:if="${comments.size()>0}">
-            <table table class="table table-dark table-striped table-hover table-bordered">
+    <th:block th:if="${comments.size()>0}">
+        <table table class="table table-dark table-striped table-hover table-bordered">
 
-                 <th:block th:each="comment : ${comments}">
-                            <tr>
-                                <th>Author</th>
-                                <td th:text="${comment.author.name}">Author name</td>
-                            </tr>
-                            <tr>
-                                <th>Date/Time</th>
-                                <td th:text="${#temporals.format(comment.commentDate, 'dd.MM.yyyy HH:mm:ss')}"></td>
-                            </tr>
-                            <tr>
-                                <th>Comment</th>
-                                <td th:text="${comment.messageText}">Ticket Text</td>
-                            </tr>
-                     <tr>
-                         <th colspan="2"><br></th>
-                     </tr>
-                 </th:block>
-            </table>
-        </th:block>
+            <th:block th:each="comment : ${comments}">
+                <tr>
+                    <th>Author</th>
+                    <td th:text="${comment.author.name + ' ' + comment.author.surname}">Author name</td>
+                </tr>
+                <tr>
+                    <th>Date/Time</th>
+                    <td th:text="${#temporals.format(comment.commentDate, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>Comment</th>
+                    <td th:text="${comment.messageText}">Ticket Text</td>
+                </tr>
+                <tr>
+                    <th colspan="2"><br></th>
+                </tr>
+            </th:block>
+        </table>
+    </th:block>
 
-        <form th:action="@{/new_comment}" th:method="post" th:object="${addNewComment}">
-            <div class="col-12">
-                <label for="message" class="form-label">Add your comment: <span class="text-muted">(5-1500 symbols)</span></label>
-                <textarea type="text" rows="5" cols="45" minlength="5" maxlength="1500"
-                          th:field="*{commentText}" class="form-control" id="message" required>
+    <form th:action="@{/ticket_machine/new_comment}" th:method="post" th:object="${addNewComment}">
+        <div class="col-12">
+            <input type="hidden" name="tic_id" th:value="${ticket.id}"/>
+            <label for="message" class="form-label">Add your comment: <span
+                    class="text-muted">(5-1500 symbols)</span></label>
+            <textarea type="text" rows="5" cols="45" minlength="5" maxlength="1500"
+                      th:field="*{commentText}" class="form-control" id="message" required>
                 </textarea>
-
-                <br>
-                <input class="btn btn-primary btn-secondary btn-block" type="file" id="myFile" name="filename" disabled>
-                <button class="btn btn-primary btn-secondary btn-block" type="submit">Submit</button>
-            </div>
-        </form>
-
-
+            <br>
+            <input class="btn btn-primary btn-secondary btn-block" type="file" id="myFile" name="filename" disabled>
+            <button class="btn btn-primary btn-secondary btn-block" type="submit">Submit</button>
+        </div>
+    </form>
 
     <br>
     <p align="center"><a href="/ticket_machine" style="color: grey">Go back to main system page</a></p>
-
 
 </div>
 </body>

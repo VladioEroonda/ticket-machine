@@ -10,16 +10,16 @@
     <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Create new ticket</h3>
     </div>
     <br>
-    <form th:action="@{/new_ticket}" th:method="post" th:object="${newTicket}">
+    <form th:action="@{new_ticket}" th:method="post" th:object="${newTicket}">
         <div class="col-12">
-            <label for="subject" class="form-label">Ticket subject: <span class="text-muted">(5-100 symbols)</span></label>
-            <input type="tel" th:field="*{subject}" minlength="5" maxlength="100" class="form-control form-control-lg"
+            <label for="subject" class="form-label">Ticket subject: <span class="text-muted">(5-150 symbols)</span></label>
+            <input type="tel" th:field="*{ticketSubject}" minlength="5" maxlength="150" class="form-control form-control-lg"
                    id="subject" required>
         </div>
         <div class="col-12">
             <label for="message" class="form-label">Ticket text: <span class="text-muted">(10-4000 symbols)</span></label>
             <textarea type="text" rows="5" cols="45" minlength="10" maxlength="4000"
-                      th:field="*{message.messageText}" class="form-control" id="message"
+                      th:field="*{ticketMessage}" class="form-control" id="message"
                       required></textarea>
             <br>
             <input class="btn btn-primary btn-secondary btn-block" type="file" id="myFile" name="filename" disabled>
