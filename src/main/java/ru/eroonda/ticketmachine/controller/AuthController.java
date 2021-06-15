@@ -32,8 +32,8 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public String registrationNewUserHandler(@Valid @ModelAttribute("newUser") UserDto userFromRequest
-            , BindingResult bindingResult) {
+    public String registrationNewUserHandler(@Valid @ModelAttribute("newUser") UserDto userFromRequest,
+                                             BindingResult bindingResult) {
 
         return userService.addUser(userFromRequest, bindingResult);
     }
@@ -58,8 +58,8 @@ public class AuthController {
     @PostMapping("/reset_password_email_validation")
     public String passwordResetEmailValidatingAction(@Valid
                                                      @ModelAttribute("emailValidator")
-                                                             EmailValidatorDto emailValidatorDto
-            , BindingResult bindingResult
+                                                             EmailValidatorDto emailValidatorDto,
+                                                     BindingResult bindingResult
     ) {
         return resetPasswordTokenConfirmationService.confirmEmail(emailValidatorDto, bindingResult);
     }
@@ -79,8 +79,8 @@ public class AuthController {
     @PostMapping("/new_password")
     public String newPasswordConfirmed(@Valid
                                        @ModelAttribute("passwordResetDto")
-                                               PasswordResetDto passwordResetDto
-            , BindingResult bindingResult
+                                               PasswordResetDto passwordResetDto,
+                                       BindingResult bindingResult
     ) {
         return userService.changeUserPassword(passwordResetDto, bindingResult);
     }

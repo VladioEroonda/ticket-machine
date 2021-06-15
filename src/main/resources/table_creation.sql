@@ -52,10 +52,12 @@ CREATE TABLE tickets
     ticket_status        INTEGER      NOT NULL,
     ticket_subject       VARCHAR(200) NOT NULL,
     ticket_message_id    INTEGER,
+    ticket_comment_id    INTEGER,
     PRIMARY KEY (ticket_id),
     FOREIGN KEY (ticket_client_id) REFERENCES user_info (user_id),
     FOREIGN KEY (ticket_engineer_id) REFERENCES user_info (user_id),
     FOREIGN KEY (ticket_message_id) REFERENCES ticket_message (ticket_message_id)
+--     FOREIGN KEY (ticket_comment_id) REFERENCES ticket_comments (comment_id)
 );
 
 CREATE TABLE ticket_comments(

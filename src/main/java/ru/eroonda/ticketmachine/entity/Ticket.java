@@ -4,6 +4,7 @@ import ru.eroonda.ticketmachine.enums.TicketStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tickets")
@@ -30,6 +31,8 @@ public class Ticket {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_message_id")
     private TicketMessage message;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket", fetch = FetchType.EAGER)
+//    private List<TicketComment> comments;
 
     public Ticket() {
     }
@@ -101,4 +104,12 @@ public class Ticket {
     public void setMessage(TicketMessage message) {
         this.message = message;
     }
+
+//    public List<TicketComment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List<TicketComment> comments) {
+//        this.comments = comments;
+//    }
 }

@@ -15,52 +15,105 @@
     <table table class="table table-dark table-striped table-hover table-bordered" th:object="${ticket}">
 
         <tr class="align-middle">
-            <th colspan="2" align="center" th:text="'Info: '">Info: </th>
+            <th colspan="2" align="center" th:text="'Info: '">Info:</th>
         </tr>
 
         <tr class="align-middle">
-            <td th:text="'Ticket ID # '">Ticket id # </td>
+            <td th:text="'Ticket ID # '">Ticket id #</td>
             <td th:text="*{id}"></td>
         </tr>
 
         <tr class="align-middle">
-            <td th:text="'Status: '">Status: </td>
+            <td th:text="'Status: '">Status:</td>
             <td th:text="*{status}"></td>
         </tr>
 
         <tr class="align-middle">
-            <td th:text="'Created by: '">Created by: </td>
+            <td th:text="'Created by: '">Created by:</td>
             <td th:text="*{client.name + ' ' + client.surname}"></td>
         </tr>
 
         <tr class="align-middle">
-            <td th:text="'Creating date: '">Creating date: </td>
+            <td th:text="'Creating date: '">Creating date:</td>
             <td th:text="${#temporals.format(ticket.creationTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
         </tr>
 
         <tr class="align-middle">
-            <td th:text="'Engineer: '">Engineer: </td>
+            <td th:text="'Engineer: '">Engineer:</td>
             <td th:text="*{engineer.name + ' ' + engineer.surname}"></td>
         </tr>
 
         <tr class="align-middle">
-            <td th:text="'Closing date: '">Closing date: </td>
+            <td th:text="'Closing date: '">Closing date:</td>
             <td th:text="*{#temporals.format(closingTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
         </tr>
 
         <tr class="align-middle">
-            <td th:text="'Subject: '">Subject: </td>
+            <td th:text="'Subject: '">Subject:</td>
             <td th:text="*{subject}"></td>
         </tr>
 
         <tr class="align-middle">
-            <td colspan="2" th:text="'Ticket text: '" align="center" bgcolor="#a9a9a9">Ticket text: </td>
+            <td colspan="2" th:text="'Ticket text: '" align="center" bgcolor="#a9a9a9">Ticket text:</td>
         </tr>
         <tr class="align-middle">
             <td colspan="2" th:text="*{message.messageText}"></td>
         </tr>
 
     </table>
+
+    <br>
+    <h5 align="center">Ticket Comments:</h5>
+    <br>
+
+
+    <th:block th:if="${comments.size()==0}">
+        <tr>
+            <td colspan="6">
+                <div style="text-align: center">
+                    <h5>No comments here yet</h5>
+                </div>
+            </td>
+        </tr>
+    </th:block>
+
+        <th:block th:if="${comments.size()>0}">
+            <table table class="table table-dark table-striped table-hover table-bordered">
+
+                 <th:block th:each="comment : ${comments}">
+                            <tr>
+                                <th>Author</th>
+                                <td th:text="${comment.author.name}">Author name</td>
+                            </tr>
+                            <tr>
+                                <th>Date/Time</th>
+                                <td th:text="${#temporals.format(comment.commentDate, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                            </tr>
+                            <tr>
+                                <th>Comment</th>
+                                <td th:text="${comment.messageText}">Ticket Text</td>
+                            </tr>
+                     <tr>
+                         <th colspan="2"><br></th>
+                     </tr>
+                 </th:block>
+            </table>
+        </th:block>
+
+        <form th:action="@{/new_comment}" th:method="post" th:object="${addNewComment}">
+            <div class="col-12">
+                <label for="message" class="form-label">Add your comment: <span class="text-muted">(5-1500 symbols)</span></label>
+                <textarea type="text" rows="5" cols="45" minlength="5" maxlength="1500"
+                          th:field="*{commentText}" class="form-control" id="message" required>
+                </textarea>
+
+                <br>
+                <input class="btn btn-primary btn-secondary btn-block" type="file" id="myFile" name="filename" disabled>
+                <button class="btn btn-primary btn-secondary btn-block" type="submit">Submit</button>
+            </div>
+        </form>
+
+
 
     <br>
     <p align="center"><a href="/ticket_machine" style="color: grey">Go back to main system page</a></p>
