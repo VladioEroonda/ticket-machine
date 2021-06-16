@@ -11,4 +11,8 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findTicketsByClient(User client);
     List<Ticket> findTicketsByClientId(int userClientId);
+    List<Ticket> findTicketsByEngineer(User engineer);
+    List<Ticket> findTicketsByEngineerNull();
+    List<Ticket> findAllByCreationTimeIsNotNull();
+    List<Ticket> findAllByClosingTimeNull();
 }

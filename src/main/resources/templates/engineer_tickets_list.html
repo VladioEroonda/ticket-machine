@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_template/pages_main_template.html}">
+<body>
+<div layout:fragment="content_part">
+
+    <div style="text-align: center;"><h3 style="alignment: center; margin-top: 15px;">Tickets list</h3></div>
+    <br>
+
+    <form th:action="@{/ticket_machine/engineer/alltickets}" th:method="post">
+        <div class="col-12">
+                        <label for="filter" class="form-label">Choose filter <span class="text-muted">:</span></label>
+            <select name="filter" id="filter">
+                <option disabled>Choose Filter</option>
+                <option value="whereIamEngineer" selected>Tickets where Iam Engineer</option>
+                <option value="withoutEngineer">Tickets without Engineer</option>
+                <option value="allNotClosedTickets">Not closed Tickets</option>
+                <option value="allTickets">All tickets</option>
+            </select>
+        <button class="btn btn-primary btn-secondary btn-block" type="submit">Filter</button>
+        </div>
+    </form>
+
+    <br><br>
+
+    <table class="table table-dark table-striped table-hover table-bordered">
+        <thead>
+        <tr class="align-middle">
+            <th>Ticket №</th>
+            <th>Ticket Status</th>
+            <th>Creation Date</th>
+            <th>Closing Date</th>
+            <th>Engineer</th>
+            <th>Ticket Subject</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:if="${allTickets.size()==0}">
+            <tr>
+                <td colspan="6">
+                    <div style="text-align: center">
+                        <h5>You have no tickets yet</h5>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+
+        <th:block th:if="${allTickets.size()>0}">
+            <tr th:each="ticket: ${allTickets}">
+                <td><a th:href="@{/ticket_machine/ticket_info/{id}(id=${ticket.id})}" th:text="${ticket.id}"/></td>
+                <td th:text="${ticket.status}"></td>
+                <td th:text="${#temporals.format(ticket.creationTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                <td th:text="${#temporals.format(ticket.closingTime, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                <td>
+                    <span th:if="${ticket.engineer == null}">
+                        <p>No Engineer yet</p>
+                    </span>
+                    <span th:unless="${ticket.engineer == null}">
+                    <a th:href="@{/ticket_machine/engineer_info/{id}(id=${ticket.engineer.id})}"
+                       th:text="${ticket.engineer.name + ' ' + ticket.engineer.surname}"/>
+                    </span>
+                </td>
+                <td th:text="${ticket.subject}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+</body>
+</html>

@@ -92,10 +92,6 @@ public class SystemController {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ticketCommentService.addNewComment(commentDto, ticketId, principal.getId());
 
-//        if (bindingResult.hasErrors()) {
-//            return "redirect:ticket_info/"+ticketId;
-//        }
-
         bindingResult.hasErrors();
 
         return "redirect:ticket_info/"+ticketId;
